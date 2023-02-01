@@ -62,6 +62,7 @@ def generate_music(request):
         modes = request.POST['modes']
         input_sequence = request.POST['input_sequence']
         print("Input sequence = " + input_sequence + "\n")
+        str =' '.join(input_sequence.split())
         str = input_sequence.replace("[", "").replace("]", "").replace("\n", "").replace(",","")
         str_list1 = str.split(" ")
         str_list2 = list(map(int, str_list1))
