@@ -1,0 +1,116 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Music Player</title>
+
+  <!-- Load FontAwesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+  <!-- Load the custom CSS style file -->
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'nav.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'inputs.css' %}">
+
+</head>
+<body>
+  <div class="container">
+    <!-- Nav bar  -->
+    <header>
+        <div class="logo">
+          <img src="{% static 'logo5.png' %}" alt="Logo">
+        </div>
+        <nav>
+          <ul>
+            <li><a href="main.html">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#profile">Profile</a></li>
+          </ul>
+        </nav>
+        <!-- <div class="menu-toggle">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </div> -->
+      </header>
+      
+      <!-- <script>
+        var menuToggle = document.querySelector(".menu-toggle");
+        var nav = document.querySelector("nav");
+        menuToggle.addEventListener("click", function(){
+          nav.classList.toggle("active");
+        });
+      </script> -->
+
+      <!-- inputs -->
+      <div class="inputs">
+        {% csrf_token %}
+        <form action="generate_music" method="POST">
+      <label for="modes">Select Mode</label>
+      <select id="modes" name="modes">
+        <option value="major">Major</option>
+        <option value="minor">Minor</option>
+       
+      </select>
+     <br>
+      <label for="notes">Select Note</label>
+      <select id="notes" name="notes">
+        <option value="option1"></option>
+        <option value="option1">C</option>
+        <option value="option1">C#</option>
+        <option value="option2">D</option>
+        <option value="option2">D#</option>
+        <option value="option3">E</option>
+        <option value="option3">F</option>
+        <option value="option3">F#</option>
+        <option value="option3">G</option>
+        <option value="option3">G#</option>
+        <option value="option3">A</option>
+        <option value="option3">A#</option>
+        <option value="option3">B</option>
+      </select>
+      <br>
+      <label  for="fname" >Input sequence </label>
+      <input id="sequence" type="text" placeholder="" id="fname" name="input_sequence">
+      <br>
+      <input type="submit" class="generate" value="Generate music"></button>    
+    </form>
+</div>
+
+
+
+      <!-- Music player  -->
+
+  <div class="player">
+    <div class="details">
+        <div class="track-art"></div>
+      <div class="track-name">Track Name</div>
+      <div class="track-artist">Track Artist</div>
+    </div>
+    <div class="buttons">
+      <!-- <div class="prev-track" onclick="prevTrack()"><i class="fa fa-step-backward fa-2x"></i></div> -->
+      <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-play-circle fa-5x"></i></div>
+      <!-- <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x"></i></div> -->
+    </div>
+    <div class="slider_container">
+      <div class="current-time">00:00</div>
+      <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+      <div class="total-duration">00:00</div>
+    </div>
+    <div class="slider_container">
+      <i class="fa fa-volume-down"></i>
+      <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
+      <i class="fa fa-volume-up"></i>
+    </div>
+  </div>
+</div>
+
+  <!-- Load the main script for the player -->
+  <script src="{% static 'musicplayer.js' %}"></script>
+</body>
+</html>
+
+
+

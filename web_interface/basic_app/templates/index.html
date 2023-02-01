@@ -3,14 +3,43 @@
 <head>
     <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
     <title>Document</title>
+   
 </head>
 <body>
-    <h1>MUSIC GENERATION WITH TRANSFORMERS AND LSTM</h1>
+    <h1>MUSIC GENERATION WITH LSTM</h1>
 
-    <midi-player
-  src="/media/example.mid">
+  <div id="whole-player">
+  <midi-player id= "player"
+  src="media/output11.mid"
+  sound-font visualizer="#myVisualizer">
 </midi-player>
 <midi-visualizer type="piano-roll" id="myVisualizer"></midi-visualizer>
+</div>
+
+{% csrf_token %}
+<form action="" method="">
+<!-- <input type="submit" id ="myButton" value="click me"> -->
+</form>
+
+
+<script>
+  document.getElementById("player").src="output111.mid";
+  document.getElementById("player").style.display = "block";
+  document.getElementById("myVisualizer").style.display = "block";
+
+</script>
+<script>
+// Get the button element
+var button = document.getElementById("myButton");
+
+// Add a click event listener to the button
+button.addEventListener("click", function() {
+  // Run the HTML tag when the button is clicked
+  document.getElementById("player").src="output111.mid";
+  document.getElementById("player").style.display = "block";
+        document.getElementById("myVisualizer").style.display = "block";
+});
+</script>
 
 </body>
 </html>
