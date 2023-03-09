@@ -11,8 +11,20 @@
     box-sizing: content-box;
   }
 .container{
-  margin:0px 40px; 
+   margin:0px 40px;  
   background-color: #081c24;
+}
+
+
+body{
+  padding: 0px;
+  margin: 0px;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+  background-color:  #081c24;
+  margin:0px 40px; 
+    
 }
 
 .player {

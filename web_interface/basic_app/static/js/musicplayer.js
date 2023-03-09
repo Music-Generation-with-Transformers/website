@@ -27,13 +27,13 @@ let track_list = [
     name: "Night Owl",
     artist: "Broke For Free",
     image: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
-    path: "/media/example.mid"
+    path: "alb_esp1.mid"
   },
   {
     name: "Enthusiast",
     artist: "Tours",
     image: "https://images.pexels.com/photos/3100835/pexels-photo-3100835.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
-    path: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Tours/Enthusiast/Tours_-_01_-_Enthusiast.mp3"
+    path: "alb_esp1.mid"
   },
   {
     name: "Shipping Lanes",
@@ -82,7 +82,6 @@ function resetValues() {
 loadTrack(track_index);
 
 function playpauseTrack() {
-  console.log("Hello world!");
   if (!isPlaying) playTrack();
   else pauseTrack();
 }

@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from .models import User
+from .forms import UserForm
 from keras.models import Sequential
 import h5py 
 import numpy as np
 import random
 import pandas as pd
+import dill
+
 from music21 import *
 from keras.models import load_model
 # Create your views here.
@@ -48,12 +52,108 @@ def get_music_midi_from_chords_and_duration(input_chords):
     new_file = 'media/'+ 'output11' + '.mid'
     return midi_stream.write('midi', fp=new_file)
 
+# for loadiing models:
+from keras import backend as K
+
+def recall_m(y_true, y_pred):
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+    possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+    recall = true_positives / (possible_positives + K.epsilon())
+    return recall
+
+def precision_m(y_true, y_pred):
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+    predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+    precision = true_positives / (predicted_positives + K.epsilon())
+    return precision
+
+def f1_m(y_true, y_pred):
+    precision = precision_m(y_true, y_pred)
+    recall = recall_m(y_true, y_pred)
+    return 2*((precision*recall)/(precision+recall+K.epsilon()))
+
+
+#############################################################
 
 def index(request):
-    return render(request, 'main.html')
+    return render(request, 'login.html')
+
+def forgot_password(request):
+    pass
+
+def register(request):
+    form = UserForm()
+    context = {} 
+    if request.method == "POST":
+        username = request.POST['username']
+        #request.session['username'] = username
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("yess")
+            return render(request, 'login.html', context)
+    
+    context = {'form':form}
+
+    return render(request, 'register.html', context)
+
+
+
+def login(request):
+
+    if request.method == "POST":
+        Username = request.POST['username']
+        Password=request.POST['password']
+        user_detail = User.objects.all()
+
+        print(user_detail[0].username)
+        for user in user_detail:
+            
+            if user.username == Username and user.password == Password:
+                #set session:
+                request.session['username'] = user.username
+                return render(request, 'main-v2.html')
+            
+    context = {}
+    return render(request, 'login.html', context)
+
+
+def generate_random(request):
+    if request.method == 'POST' :
+        selected_mode = request.POST['modes']
+        selected_key_note = request.POST['notes']
+    
+    my_custom_objects = {"f1_m": f1_m, "precision_m":precision_m, "recall_m":recall_m}
+    if (selected_mode == 'Aeolian'):
+        model = load_model('media/models/Aeolian_best_model_small_LSTM_2.h5' , custom_objects = my_custom_objects)
+    elif(selected_mode == 'Dorian'):
+        model = load_model('media/models/Dorian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+    elif(selected_mode == 'Harmonic-Minor'):
+        model = load_model('media/models/Harmonic_minor_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+    elif(selected_mode == 'Ionian'):
+        model = load_model('media/models/Ionian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+    elif(selected_mode == 'Lydian'):
+        model = load_model('media/models/lydian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+    elif(selected_mode == 'Melodic-Minor'):
+        model = load_model('media/models/Melodic_minor_ascend_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+    elif(selected_mode == 'Mixolydian'):
+        model = load_model('media/models/Mixolydian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+    elif(selected_mode == 'Phrygian'):
+        model = load_model('media/models/Phrygian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+
+
+    with open('Phrygian_x_y.dill', 'rb') as f:
+        args = dill.load(f)
+
+    print(args)
+ 
+    
+    
+    return render(request, 'index-v2.html')
 
 
 @csrf_exempt
+
 def generate_music(request):
     
 
@@ -62,8 +162,9 @@ def generate_music(request):
         modes = request.POST['modes']
         input_sequence = request.POST['input_sequence']
         print("Input sequence = " + input_sequence + "\n")
-        str =' '.join(input_sequence.split())
-        str = input_sequence.replace("[", "").replace("]", "").replace("\n", "").replace(",","")
+        str00 =' '.join(input_sequence.split())
+        print("Input sequence = " + str00 + "\n")
+        str = str00.replace("[ ", "").replace("]", "").replace("\n", "").replace(",","").replace("[", "").replace(" ]", "")
         str_list1 = str.split(" ")
         str_list2 = list(map(int, str_list1))
         input_sequence11_arr = np.array(str_list2)

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Music Player</title>
+  <!-- Load FontAwesome icons -->
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+  <!-- Load the custom CSS style file -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'piano.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'nav.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'inputs.css' %}">
+  
+
+</head>
+  <body>
+        <div class="container">
+        <!-- Nav bar  -->
+        <header>
+            <div class="logo">
+              <img src="{% static 'logo5.png' %}" alt="Logo">
+            </div>
+            <nav>
+              <ul>
+                <li><a href="main.html">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#profile">Profile</a></li>
+              </ul>
+            </nav>
+            <!-- <div class="menu-toggle">
+              <i class="fa fa-bars" aria-hidden="true"></i>
+            </div> -->
+          </header>
+          
+          <!-- <script>
+            var menuToggle = document.querySelector(".menu-toggle");
+            var nav = document.querySelector("nav");
+            menuToggle.addEventListener("click", function(){
+              nav.classList.toggle("active");
+            });
+          </script> -->
+
+          <!-- inputs -->
+          <div class="inputs">
+            
+          <form action="generate_random" method="POST">
+            {% csrf_token %}
+          <label for="modes">Select Mode</label>
+          <select id="modes" name="modes">
+            <option value="Aeolian">Aeolian</option>
+            <option value="Dorian">Dorian</option>
+            <option value="Harmonic-Minor">Harmonic Minor</option>
+            <option value="Ionian">Ionian</option>
+            <option value="Lydian">Lydian</option>
+            <option value="Melodic-Minor">Melodic Minor</option>
+            <option value="Mixolydian">Mixolydian</option>
+            <option value="Phrygian">Phrygian</option>
+          </select>
+        <br>
+          <label for="notes">Select Note</label>
+          <select id="notes" name="notes">
+            <option value="C">C</option>
+            <option value="C#">C#</option>
+            <option value="D">D</option>
+            <option value="D#">D#</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="F#">F#</option>
+            <option value="G">G</option>
+            <option value="G#">G#</option>
+            <option value="A">A</option>
+            <option value="A#">A#</option>
+            <option value="B">B</option>
+          </select>
+          
+
+          <br>
+          <label  for="fname" >Input sequence </label>
+          <input id="sequence" type="text" placeholder="C,D,E,F#" id="fname" name="fname">
+          <br>
+          <input type="submit" class="generate" value="click">
+          <button type="button" class="generate"> Generate music</button>    
+          
+        </form>
+       
+      </div>
+          
+
+
+
+          <!-- Music player  -->
+          
+          <div class="notes">
+                <br>
+                  <p  id="piano_sequence"> </p>
+                  
+                <br>
+                  <br>
+                  <p  id="Duration"> </p>
+                  
+                <br>
+          </div>
+              
+              <div id="piano">
+                  <div class="keys">
+          
+              <div class="key white "><span class="white-words">z</span></div>
+          
+              <div class="key black "><span class="black-words">1</span></div>
+          
+              <div class="key white "><span class="white-words">x</span></div>
+          
+              <div class="key black "><span class="black-words">2</span></div>
+          
+              <div class="key white "><span class="white-words">c</span></div>
+              <div class="key white "><span class="white-words">v</span></div>
+          
+              <div class="key black "><span class="black-words">3</span></div>
+              <div class="key white "><span class="white-words">b</span></div>
+              <div class="key black "><span class="black-words">4</span></div>
+              <div class="key white "><span class="white-words">n</span></div>
+              <div class="key black "><span class="black-words">5</span></div>
+              <div class="key white "><span class="white-words">m</span></div>
+              <div class="key white "><span class="white-words">,</span></div>
+              <div class="key black "><span class="black-words">6</span></div>
+              <div class="key white "><span class="white-words">.</span></div>
+              <div class="key black "><span class="black-words">7</span></div>
+              <div class="key white "><span class="white-words">q</span></div>
+              <div class="key white "><span class="white-words">w</span></div>
+              <div class="key black "><span class="black-words">8</span></div>
+              <div class="key white "><span class="white-words">e</span></div>
+              <div class="key black "><span class="black-words">9</span></div>
+              <div class="key white "><span class="white-words">r</span></div>
+              <div class="key black "><span class="black-words">/</span></div>
+              <div class="key white "><span class="white-words">t</span></div>
+              <div class="key white "><span class="white-words">y</span></div>
+              <div class="key black "><span class="black-words">;</span></div>
+              <div class="key white "><span class="white-words">u</span></div>
+              <div class="key black "><span class="black-words">'</span></div>
+              <div class="key white "><span class="white-words">i</span></div>
+              <div class="key white "><span class="white-words">o</span></div>
+              <div class="key black "><span class="black-words">[</span></div>
+              <div class="key white "><span class="white-words">p</span></div>
+              <div class="key black "><span class="black-words">]</span></div>
+              <div class="key white "><span class="white-words">a</span></div>
+              <div class="key black "><span class="black-words">0</span></div>
+              <div class="key white "><span class="white-words">s</span></div>
+              <div class="key white "><span class="white-words">d</span></div>
+              <div class="key black "><span class="black-words">-</span></div>
+              <div class="key white "><span class="white-words">f</span></div>
+              <div class="key black "><span class="black-words">=</span></div>
+              <div class="key white "><span class="white-words">g</span></div>
+              <div class="key white "><span class="white-words">h</span></div>
+              <div class="key black "><span class="black-words">@</span></div>
+              <div class="key white "><span class="white-words">j</span></div>
+              <div class="key black "><span class="black-words"> </span></div>
+              <div class="key white "><span class="white-words">k</span></div>
+              <div class="key black "><span class="black-words">`</span></div>
+              <div class="key white "><span class="white-words">l</span></div>
+          
+          </div>
+          </div>       
+        </div>
+    </div>
+            <script src="{% static 'piano.js' %}"></script>
+            <script src="{% static 'musicplayer.js' %}"></script>
+  </body>
+</html>
+
+
+

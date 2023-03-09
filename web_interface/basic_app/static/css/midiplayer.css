@@ -1,0 +1,126 @@
+body{
+  background-color: #324045;
+}
+#whole-player {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #081c24;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow-x: scroll;
+    margin-left: 12%;
+    position: absolute;
+  }
+  
+  midi-player {
+    margin-bottom: 20px;
+  }
+  
+  /* Custom player style */
+#section3 midi-player {
+    display: block;
+    width: auto;
+    margin: 4px;
+    margin-bottom: 0;
+  }
+  #section3 midi-player::part(control-panel) {
+    background: #90F5C3;
+    border: 2px solid #000;
+    border-radius: 10px 10px 0 0;
+  }
+  #section3 midi-player::part(play-button) {
+    color: #90F5C3;
+    border: 2px solid currentColor;
+    background-color: #2d7551;
+    border-radius: 20px;
+    transition: all 0.2s;
+    content: 'hello';
+  }
+  #section3 midi-player::part(play-button):hover {
+    color:#90F5C3;
+    background-color: #081c24;
+    border-radius: 10px;
+  }
+  #section3 midi-player::part(time) {
+    font-family: monospace;
+  }
+  
+  /* Custom visualizer style */
+  #section3 midi-visualizer .piano-roll-visualizer {
+    background: #ffd;
+    border: 2px solid black;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    margin: 4px;
+    margin-top: 0;
+    overflow: auto;
+
+  }
+  #section3 midi-visualizer svg rect.note {
+    opacity: 0.8;
+    stroke-width:2;
+    
+  }
+  #section3 midi-visualizer svg rect.note[data-instrument="0"]{
+    fill: #888;
+    stroke: #888;
+    
+  }
+  #section3 midi-visualizer svg rect.note[data-key= "E"]{
+    fill: pink;
+    stroke: #055;
+    
+  }
+  #section3 midi-visualizer svg rect.note[data-key= "c"]{
+    fill: magenta;
+    stroke: #055;
+    
+  }
+  #section3 midi-visualizer svg rect.note[data-key= "b"]{
+    fill: orange;
+    stroke: #055;
+    
+  }
+
+  #section3 midi-visualizer svg rect.note[data-instrument="2"]{
+    fill: #2ee;
+    stroke: #055;
+  }
+  #section3 midi-visualizer svg rect.note[data-is-piano="true"]{
+    fill: #888;
+    stroke: #888;
+  }
+  #section3 midi-visualizer svg rect.note.active {
+    opacity: 0.9;
+    stroke: #000;
+  }
+
+  /* #visualizer {
+    width: 100%;
+    height: 400px;
+    background-color: white;
+  }
+  
+  #noteDisplay {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+  }
+   */
+   #piano_sequence{
+    padding: 10px;
+   font-size: 18px; 
+   border-radius: 10px;
+   border: 5px solid #90F5C3;
+   height: 30px;
+   width: 250px;
+   text-align: center;
+    margin: auto; 
+   display: block;
+   background-color:black;
+   color: white;
+ }
+

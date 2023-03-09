@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'midiplayer.css' %}">
+    <link rel="stylesheet" href="{% static 'piano-v2.css' %}">
+  
+    <title>Music Generation using LSTM</title>
+   
+</head>
+<body>
+  <h1 style="color:#90F5C3; margin-left: 50%;">MUSIC GENERATION WITH LSTM</h1>
+<!-- Piano -->
+<br>
+<br>
+<br><br>
+<div class="both">
+
+<div id="piano">
+   <div class="keys">
+
+    
+
+    
+
+    
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+<div class="key black "><span class="black-words"></span></div>
+<div class="key white "><span class="white-words"></span></div>
+
+
+
+
+
+   
+   </div>
+</div>
+
+<!-- music player -->
+
+    <!-- <br>
+    <p  id="piano_sequence" style="color:white "> dlfjsdlkfjd</p>
+    
+    <br> -->
+
+  <div id="whole-player">
+  <section id="section3">
+  <midi-player
+    src="media/alb_esp1.mid"
+    sound-font visualizer="#section3 midi-visualizer">
+  </midi-player>
+
+
+  <midi-visualizer
+    src="media/alb_esp1.mid">
+  </midi-visualizer>
+  </section>
+</div>
+</div>
+
+<form action="" method="">
+<!-- <input type="submit" id ="myButton" value="click me"> -->
+</form>
+
+
+<script src="{% static 'midifile.js' %}"></script>
+</body>
+</html>

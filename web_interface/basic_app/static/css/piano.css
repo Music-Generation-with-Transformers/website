@@ -1,0 +1,157 @@
+
+#piano{
+    height: 160px;
+    padding: 10px 5px 5px 5px;
+    display: flex;
+    justify-items: center;
+    background-color: #90F5C3 ;
+    border-radius: 10px; 
+    white-space: nowrap;
+    
+    position: absolute;
+ 
+    margin-left: 80px;
+}
+.key {
+    width: 40px;
+    height:160px;
+    border: 1px solid black;
+    display: inline-block;
+    margin-right: -4px;
+  }
+  
+  .black {
+    width: 20px;
+    height: 80px;
+    background-color: black;
+    position: absolute;
+    margin-left: -10px;
+  }
+  .white {
+    background-color: white;
+
+  }
+
+    
+ 
+.keys{
+    box-shadow: 1px 1px 13px 0px rgba(0,0,0,0.75);
+    transition: transform 0.1s;
+}
+.played {
+    transform: translateY(10px);
+  }
+  .white-words{
+    color: black;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    margin: 20px ;
+   font-weight: bolder;
+   font-size: larger;
+
+  }
+  .black-words{
+    color: white;
+    text-align: center;
+    margin: 4px ;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-weight: bolder;
+   font-size: larger;
+}
+#piano_sequence, #Duration{
+     padding: 10px;
+    font-size: 18px; 
+    border-radius: 10px;
+    border: 5px solid #90F5C3;
+    height: 30px;
+    width: 250px;
+    text-align: center;
+     margin-left: 20%; 
+    display: block;
+    background-color:black;
+    color: white;
+  }
+.notes{
+    display: flex;
+}
+/* 
+.white-keys{
+    display: flex;
+}
+.white-key{
+    width: 68px;
+    height: 280px;
+    border-radius:0 0 5px 5px ;
+    border: solid black 2px;
+    box-sizing: border-box;
+    background-color: white;
+
+}
+.black-keys{
+    position: relative;
+    display: flex;
+}
+
+.black-key{
+    width: 38px;
+    height: 160px;
+    border-radius: 0 0 5px 5px;
+    box-sizing: border-box;
+    position: absolute;
+    background-color: black;
+
+} */
+/* .black-key:nth-child(1){
+    left: 48px;
+}
+.black-key:nth-child(2){
+    left: 117px;
+}
+.black-key:nth-child(3){
+    left: 253px;
+}
+.black-key:nth-child(4){
+    left: 320px;
+}
+.black-key:nth-child(5){
+    left: 389px;
+}
+.black-key:nth-child(6){
+    left: 525px;
+}
+.black-key:nth-child(7){
+    left: 594px;
+}
+.black-key:nth-child(8){
+    left: 662px;
+}
+.black-key:nth-child(9){
+    left: 797px;
+}  
+.black-key:nth-child(10){
+    left: 865px;
+} */
+
+/* .black-words{
+    color: white;
+    text-align: center;
+    margin: 4px ;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-weight: bolder;
+   font-size: larger;
+}
+.white-words{
+    color: black;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    margin: 20px ;
+   font-weight: bolder;
+   font-size: larger;
+} */
+
