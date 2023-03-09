@@ -64,8 +64,8 @@ body{
     
   }
   #section3 midi-visualizer svg rect.note[data-instrument="0"]{
-    fill: #888;
-    stroke: #888;
+    fill:#5be39f;
+    stroke:#5be39f;
     
   }
   #section3 midi-visualizer svg rect.note[data-key= "E"]{
@@ -89,8 +89,8 @@ body{
     stroke: #055;
   }
   #section3 midi-visualizer svg rect.note[data-is-piano="true"]{
-    fill: #888;
-    stroke: #888;
+    fill: #5be39f;
+    stroke: #5be39f;
   }
   #section3 midi-visualizer svg rect.note.active {
     opacity: 0.9;

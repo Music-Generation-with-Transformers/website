@@ -126,37 +126,48 @@ let pressed_keys2 = [];
 function clear_set() {}
 let counter = 0;
 let startTime = null;
+let chord_duration_seq=[];
+let latest_chord_time = 0;
 
 
+function reset_clicked()
+{
+  document.getElementById("sequence").value =""; 
+  chord_duration_seq = []
+}
+
+function generate_clicked()
+{
+
+}
 
 document.addEventListener("keypress", (event) => {
   pressed_keys.add(event.key);
-
-  if (startTime === null) {
-    startTime = Date.now();
-    console.log("Timer started." + startTime);
-    var note_duration = document.getElementById("Duration");
-    note_duration.innerHTML = "0 s";
-  } 
-  else {
-    if(((Date.now() - startTime) /1000) >=4){
-      startTime = Date.now();
-      console.log("Timer started." + startTime);
-      var note_duration = document.getElementById("Duration");
-      note_duration.innerHTML = "0 s";
-    }
-    else{
-
-      let elapsedSeconds = (Date.now() - startTime) /1000;
-      console.log(`Key pressed after ${elapsedSeconds.toFixed(2)} seconds.`);
-      
-      var note_duration = document.getElementById("Duration");
-      note_duration.innerHTML = elapsedSeconds;
-      startTime = Date.now();
-    }
-  
-     
-  }
+   //////////////////////////////////////////////////////////////////////////
+         // for duration part:
+         if (startTime === null) {
+          startTime = Date.now();
+          console.log("Timer started." + startTime);
+          var note_duration = document.getElementById("Duration");
+          note_duration.innerHTML = "0 s";
+        } 
+        else {
+          if(((Date.now() - startTime) /1000) >=4){
+            startTime = Date.now();
+            console.log("Timer started." + startTime);
+            var note_duration = document.getElementById("Duration");
+            note_duration.innerHTML = "0 s";
+          }
+          else{
+              let elapsedSeconds = (Date.now() - startTime) /1000;
+              console.log(`Key pressed after ${elapsedSeconds.toFixed(2)} seconds.`);
+            var note_duration = document.getElementById("Duration");
+            note_duration.innerHTML = elapsedSeconds;
+            chord_duration_seq.push(elapsedSeconds);
+            startTime = Date.now();
+          }
+           
+        } //end duration part:
   
   setTimeout(() => {
     pressed_keys.clear();
@@ -176,11 +187,18 @@ document.addEventListener("keypress", (event) => {
         allnote.add(note[order.indexOf(odr)]);
 
         let notestr = "";
+
         for (const x of allnote.values()) {
           notestr += x + " ";
+          chord_duration_seq.push(x)
         }
         var note_played = document.getElementById("piano_sequence");
         note_played.innerHTML = notestr;
+        document.getElementById("sequence").value =chord_duration_seq;
+        
+        //chord_duration_seq.push(notestr);
+        console.log(chord_duration_seq);
+
       }
     });
   } else {
@@ -196,17 +214,27 @@ document.addEventListener("keypress", (event) => {
         allnote.add(note[order.indexOf(odr)]);
 
         let notestr = "";
+        
+        chord_duration_seq.push("<SOC>")
         for (const x of allnote.values()) {
           notestr += x + " ";
+          chord_duration_seq.push(x);
         }
+        chord_duration_seq.push("<EOC>")
         var note_played = document.getElementById("piano_sequence");
         note_played.innerHTML = notestr;
+        document.getElementById("sequence").value =chord_duration_seq;
+        
+        console.log(chord_duration_seq);
 
               }
             });
             // }
           }
          if(counter === 2) counter = 1;
+
+
+       
 });
 
 

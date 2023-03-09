@@ -7,3 +7,38 @@
 .label-text{
     width:150px;
 }
+
+
+#butn{
+
+    font-size: 20px;
+    border-radius: 10px;
+    /* border: 1px solid gray; */
+    justify-self:center;
+    padding: 13px 20px ;
+    background-color: black;
+    color: #90F5C3;
+    border: solid #90F5C3 1px;
+    width: 15vw;
+    
+  }
+
+
+  *{
+    box-sizing: border-box;
+}
+.container{
+margin-top: 10vh;
+width: 50vw;
+box-shadow: 1px 4px 46px 10px rgba(0,0,0,0.14); 
+  border-radius: 10px;
+  padding: 1rem;
+  min-height: 50vh;
+  background-color: #081c24;
+  color: white;
+}
+
+.username-form, .password-form{
+    min-height: 3.5rem;
+    border-radius: 10px;
+    }

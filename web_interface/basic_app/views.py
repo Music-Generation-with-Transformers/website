@@ -8,6 +8,7 @@ import numpy as np
 import random
 import pandas as pd
 import dill
+import time
 
 from music21 import *
 from keras.models import load_model
@@ -26,31 +27,79 @@ def play_midi_file(midi_file_name):
     s.show('midi')
 
 # for seeing output from chords and given duration:
-def get_music_midi_from_chords_and_duration(input_chords):
+def pred_out_to_midi(pred_output, initial_ts, initial_tempo):
+    
+    #generate new score                  
     midi_stream = stream.Stream()
-
-    for note_pattern, duration_pattern in input_chords:
-        notes_in_chord = note_pattern.split('.')
+    rounded_durations = ['0.1', '0.3', '1.25', '2'] 
+    
+    ts_numerator, ts_denominator = initial_ts.split('/')
+    new_ts = meter.TimeSignature(f'{ts_numerator}/{ts_denominator}')
+    midi_stream.insert(0, new_ts)
+    midi_stream.insert(0, tempo.MetronomeMark(number = initial_tempo))
+    
+    count=0
+    for i in range(0, len(pred_output)):
+        #print(pred_output[i])
+        j=0
+        if pred_output[i] == '<SOC>':
+            i = i+1
+            new_chord = []
+            while((len(pred_output) > i ) and pred_output[i] != '<EOC>' and j<3):
+                #print(pred_output[i])
+                if (not pred_output[i][0].isdigit()): 
+                    new_chord.append(pred_output[i])
+                    i= i+1
+                    j=j+1
+            #out of while loop i.e end of one chord:
+            # Parse and add a chord to the stream
+           
+            #to see if there exists the duration:
+            if ((len(pred_output) > i+1 ) and '.' in pred_output[i +1]):
+                d = duration.Duration(float(pred_output[i+1]))
+                i= i+1
+            else:
+                d= duration.Duration(float(random.choice(rounded_durations)))
+                
+            try:
+                c = chord.Chord(new_chord)
+                c.duration = d
+                midi_stream.append(c)
+            except:
+                print(f'o-o{new_chord}')
         
-        chord_notes = []
-        for current_note in notes_in_chord:
-            new_note = note.Note(current_note)
-            new_note.duration = duration.Duration(duration_pattern)
-            new_note.storedInstrument = instrument.Violoncello()
-            chord_notes.append(new_note)
-        new_chord = chord.Chord(chord_notes)
         
-        midi_stream.append(new_chord)
+        elif ((len(pred_output) > i ) and pred_output[i] ==  '<EOC>'):
+            continue
 
-        new_tempo = tempo.MetronomeMark(number=50)
+        elif((len(pred_output)>i ) and '.' not in pred_output[i]):
+            # Parse and add a note to the stream
+             #to see if there exists the duration:
+            try:
+                n = note.Note(pred_output[i])
+                if( (len(pred_output) > i + 1)):
+
+                    if ('.' in pred_output[i +1]):
+                        d = duration.Duration(float(pred_output[i+1]))
+                        i= i+1
+                    else:
+                        d= duration.Duration(float(random.choice(rounded_durations)))
+                else:
+                        d= duration.Duration(float(random.choice(rounded_durations)))
+            except:
+                continue
             
-        midi_stream.append(new_tempo)
-
-    midi_stream = midi_stream.chordify()
-    rannum= random.randint(0, 350)
-    #timestr = time.strftime("%Y%m%d-%H%M%S")
-    new_file = 'media/'+ 'output11' + '.mid'
-    return midi_stream.write('midi', fp=new_file)
+            n.duration = d
+            midi_stream.append(n)
+        
+        else : #else it is digit
+            print(f"c{count}\t {pred_output[i]}")
+            count = count+1
+    # Save the stream to a MIDI file
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    new_file = 'media/output/output' + '.mid'
+    return midi_stream.write('midi', fp=new_file) 
+    
 
 # for loadiing models:
 from keras import backend as K
@@ -123,32 +172,90 @@ def generate_random(request):
         selected_mode = request.POST['modes']
         selected_key_note = request.POST['notes']
     
+    combo_file_name =''
     my_custom_objects = {"f1_m": f1_m, "precision_m":precision_m, "recall_m":recall_m}
     if (selected_mode == 'Aeolian'):
         model = load_model('media/models/Aeolian_best_model_small_LSTM_2.h5' , custom_objects = my_custom_objects)
+        combo_file_name = 'COMBO_Aeolian' 
     elif(selected_mode == 'Dorian'):
         model = load_model('media/models/Dorian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+        combo_file_name = 'COMBO_Dorian'
     elif(selected_mode == 'Harmonic-Minor'):
         model = load_model('media/models/Harmonic_minor_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+        combo_file_name = 'COMBO_Harmonic_minor'
     elif(selected_mode == 'Ionian'):
         model = load_model('media/models/Ionian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+        combo_file_name = 'COMBO_Ionian'
     elif(selected_mode == 'Lydian'):
         model = load_model('media/models/lydian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+        combo_file_name = 'COMBO_Lydian'
     elif(selected_mode == 'Melodic-Minor'):
         model = load_model('media/models/Melodic_minor_ascend_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+        combo_file_name = 'COMBO_Melodic_minor_ascend'
     elif(selected_mode == 'Mixolydian'):
         model = load_model('media/models/Mixolydian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+        combo_file_name = 'COMBO_Mixolydian'
     elif(selected_mode == 'Phrygian'):
-        model = load_model('media/models/Phrygian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
+        model = load_model('media/tester/Phrygian_MODEL.h5', custom_objects = my_custom_objects)
+        combo_file_name = 'COMBO_Phrygian'
+        
 
-
-    with open('Phrygian_x_y.dill', 'rb') as f:
+    with open('media/tester/Phrygian.dill', 'rb') as f:
         args = dill.load(f)
-
-    print(args)
  
+    x_train = args["x_train"]
+    x_val = args["x_val"]
+    y_train = args["y_train"]
+    y_val = args["y_val"]
+
+    mapping_dict = {}
+    all_note_list0 = ["C","C#","D","D#","E","F","F#", "G","G#", "A","A#", "B" ]
+    all_note_list1 = ["C","D-","D","E-","E","F","G-", "G","A-", "A","B-", "B" ]
+
+    assigning_index = 1
+    for each_octave in range(0 , 9): 
+        for each_note in range (0, len(all_note_list0)):
+            #print(each_note)
+            
+            temp_dict0 = { all_note_list0[each_note] + str(each_octave) : assigning_index }
+            temp_dict1 = { all_note_list1[each_note] + str(each_octave) : assigning_index }
+            mapping_dict.update(temp_dict0)
+            mapping_dict.update(temp_dict1)
+            assigning_index += 1
+
+    mapping_dict.update({"<SOC>"  : assigning_index})
+    mapping_dict.update({"<EOC>"  : assigning_index + 1})
+    mapping_dict.update({'0': assigning_index + 2})
+    mapping_dict.update({'0.1': assigning_index + 3})
+    mapping_dict.update({'0.3': assigning_index + 4})
+    mapping_dict.update({'1.25': assigning_index + 5})
+    mapping_dict.update({'2': assigning_index + 6})
+
     
+    ## FOR MAKING PREDICTIONS:
+    ind = np.random.randint(0,len(x_val)-1)
+    random_music = x_train[ind]
+    no_of_timesteps = 60
+    predictions=[]
+    for i in range(200):
+        random_music = random_music.reshape(1,no_of_timesteps)
+        #print("random music = ", random_music)
+        prob  = model.predict(random_music)[0]
+        y_pred= np.argmax(prob,axis=0)
+        predictions.append(y_pred)
+        random_music = np.insert(random_music[0],len(random_music[0]),y_pred)
+        random_music = random_music[1:]
     
+    print(predictions)
+    unique_x_int_to_CD = dict((num, note) for note, num in mapping_dict.items())
+    predicted_CD = [unique_x_int_to_CD[i] for i in predictions]
+    print(predicted_CD)
+
+    predicted_CD = [unique_x_int_to_CD[i] for i in predictions]
+    p =pred_out_to_midi(predicted_CD, '3/8', 90)
+
+    
+    #### FINAL END OF FUNCTION:
     return render(request, 'index-v2.html')
 
 

@@ -13,12 +13,16 @@
     rel="stylesheet"
     href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="../../static/register.css"> 
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'register.css' %}"> 
+    
 	<title>Register</title>
 </head>
-<body>
+<body style="vertical-align: middle;">
 	<div class="row mt-6">
 		<div class="col-md-6 m-auto">
-			<div class="card card-body">
+			<div class="container">
 				<h1 class="text-centre mb-3"><i class="fa fa-user-plus"></i> Register</h1>
 
                 
@@ -59,12 +63,12 @@
 </div>
     
 </div>
-<button type="submit" class="btn btn-danger btn-block mb-2">Register</button>
+<button type="submit" class="" id="butn" style="position: relative;left: 22vw;">Register</button>
 </form>
 {{ form.errors }}
 
-<p >Have an account?<a href="./home.html" style="text-decoration: none;"
-class="text-danger mt-4">login</a></p>
+<p >Have an account?<a href="login" style="text-decoration: none; color:aqua;"
+class="" >login</a></p>
 </div>
 </div>
 </div>
