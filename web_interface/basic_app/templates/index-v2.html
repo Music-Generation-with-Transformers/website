@@ -117,17 +117,41 @@
     
     <br> -->
 
-  <div id="whole-player">
-  <section id="section3">
+ 
+
+  <div id="whole-player" style="height: 500px;">
+  <section id="section3" style="height: 500px;">
+  
+  
+  {% if selected_mode == "Aeolian" %}
   <midi-player
-    src="media/output/output.mid"
-    sound-font visualizer="#section3 midi-visualizer">
+    src="media/minor_best_output/aeolian/Aeolian000.mid" sound-font visualizer="#section3 midi-visualizer">
   </midi-player>
+  <midi-visualizer src="media/minor_best_output/aeolian/Aeolian000.mid"> </midi-visualizer>
+  {% endif %}
+
+  {% if selected_mode == "Dorian" %}
+  <midi-player
+    src="media/minor_best_output/Dorian/Dorian000.mid" sound-font visualizer="#section3 midi-visualizer">
+  </midi-player>
+  <midi-visualizer src="media/minor_best_output/Dorian/Dorian000.mid"> </midi-visualizer>
+  {% endif %}
+
+  {% if selected_mode == "Harmonic-Minor" %}
+  <midi-player
+    src="media/minor_best_output/harmonic minor/Harmonic_minor000.mid" sound-font visualizer="#section3 midi-visualizer">
+  </midi-player>
+  <midi-visualizer src="media/minor_best_outputharmonic minor/Harmonic_minor000.mid" style="height: 160px;"> </midi-visualizer>
+  {% endif %}
+
+  {% if selected_mode == "Melodic-Minor" %}
+  <midi-player
+    src="media/minor_best_output/Melodic Minor Ascend/Melodic Minor Ascend000.mid" sound-font visualizer="#section3 midi-visualizer">
+  </midi-player>
+  <midi-visualizer src="media/minor_best_output/Melodic Minor Ascend/Melodic Minor Ascend000.mid"> </midi-visualizer>
+  {% endif %}
 
 
-  <midi-visualizer
-    src="media/output/output.mid">
-  </midi-visualizer>
   </section>
 </div>
 </div>

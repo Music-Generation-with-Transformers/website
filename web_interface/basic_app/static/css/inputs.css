@@ -19,7 +19,7 @@ form {
     color: #90F5C3;
   }
 
-  #modes,#notes,#sequence{
+  #modes,#notes,#sequence,#time_sign,#tempo{
     padding: 10px;
     font-size: 18px;
     border-radius: 10px;

@@ -15,7 +15,6 @@ from keras.models import load_model
 # Create your views here.
 
 
-
 from music21 import midi
 def play_midi_file(midi_file_name):
     mf = midi.MidiFile()
@@ -171,36 +170,38 @@ def generate_random(request):
     if request.method == 'POST' :
         selected_mode = request.POST['modes']
         selected_key_note = request.POST['notes']
+        selected_time = request.POST['time_sign']
+        selected_tempo =request.POST['tempo']
     
     combo_file_name =''
     my_custom_objects = {"f1_m": f1_m, "precision_m":precision_m, "recall_m":recall_m}
     if (selected_mode == 'Aeolian'):
-        model = load_model('media/models/Aeolian_best_model_small_LSTM_2.h5' , custom_objects = my_custom_objects)
-        combo_file_name = 'COMBO_Aeolian' 
+        model = load_model('media/new_models/Aeolian_MODEL.h5')
+        combo_file_name = 'Aeolian' 
     elif(selected_mode == 'Dorian'):
-        model = load_model('media/models/Dorian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
-        combo_file_name = 'COMBO_Dorian'
+        model = load_model('media/new_models/Dorian_MODEL.h5')
+        combo_file_name = 'Dorian'
     elif(selected_mode == 'Harmonic-Minor'):
-        model = load_model('media/models/Harmonic_minor_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
-        combo_file_name = 'COMBO_Harmonic_minor'
+        model = load_model('media/new_models/Harmonic_minor_MODEL.h5')
+        combo_file_name = 'Harmonic_minor'
     elif(selected_mode == 'Ionian'):
-        model = load_model('media/models/Ionian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
-        combo_file_name = 'COMBO_Ionian'
+        model = load_model('media/new_models/Ionian_MODEL.h5')
+        combo_file_name = 'Ionian'
     elif(selected_mode == 'Lydian'):
-        model = load_model('media/models/lydian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
-        combo_file_name = 'COMBO_Lydian'
+        model = load_model('media/new_models/Lydian_MODEL.h5')
+        combo_file_name = 'Lydian'
     elif(selected_mode == 'Melodic-Minor'):
-        model = load_model('media/models/Melodic_minor_ascend_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
-        combo_file_name = 'COMBO_Melodic_minor_ascend'
+        model = load_model('media/new_models/Melodic_minor_ascend_MODEL.h5')
+        combo_file_name = 'Melodic_minor'
     elif(selected_mode == 'Mixolydian'):
-        model = load_model('media/models/Mixolydian_best_model_small_LSTM.h5', custom_objects = my_custom_objects)
-        combo_file_name = 'COMBO_Mixolydian'
+        model = load_model('media/new_models/Mixolydian_MODEL.h5')
+        combo_file_name = 'Mixolydian'
     elif(selected_mode == 'Phrygian'):
-        model = load_model('media/tester/Phrygian_MODEL.h5', custom_objects = my_custom_objects)
-        combo_file_name = 'COMBO_Phrygian'
+        model = load_model('media/new_models/Phrygian_MODEL.h5')
+        combo_file_name = 'Phrygian'
         
 
-    with open('media/tester/Phrygian.dill', 'rb') as f:
+    with open('media/new_models/'+ combo_file_name +'.dill', 'rb') as f:
         args = dill.load(f)
  
     x_train = args["x_train"]
@@ -237,7 +238,7 @@ def generate_random(request):
     random_music = x_train[ind]
     no_of_timesteps = 60
     predictions=[]
-    for i in range(200):
+    for i in range(100):
         random_music = random_music.reshape(1,no_of_timesteps)
         #print("random music = ", random_music)
         prob  = model.predict(random_music)[0]
@@ -252,11 +253,12 @@ def generate_random(request):
     print(predicted_CD)
 
     predicted_CD = [unique_x_int_to_CD[i] for i in predictions]
-    p =pred_out_to_midi(predicted_CD, '3/8', 90)
+    p =pred_out_to_midi(predicted_CD, selected_time, int(selected_tempo))
 
     
     #### FINAL END OF FUNCTION:
-    return render(request, 'index-v2.html')
+    
+    return render(request, 'index.html', {"selected_mode" : selected_mode})
 
 
 @csrf_exempt
